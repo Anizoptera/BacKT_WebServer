@@ -1,0 +1,32 @@
+group "azadev.backt"
+version "1.0"
+
+buildscript {
+	repositories {
+		jcenter()
+		maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1' }
+	}
+	dependencies {
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+	}
+}
+
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.6
+
+repositories {
+	jcenter()
+	maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1' }
+}
+
+dependencies {
+	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+	compile "io.netty:netty-all:4.1.6.Final"
+
+	// http://mvnrepository.com/artifact/com.sun.mail/javax.mail
+	compile "com.sun.mail:javax.mail:1.5.5"
+
+	testCompile "junit:junit:$junit_version"
+}

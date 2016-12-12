@@ -22,29 +22,16 @@ class HttpRequestHandler(
 		val routes = filterRoutes(server.routes, request)
 
 
-		try {
-			if (!runRoutes(InterceptOn.PRE_REQUEST, routes, request, response))
-				return writeResponse(ctx, request, response, routes)
-		}
-		catch(e: Throwable) {
-			server.logError(e) { "Exception during ${InterceptOn.PRE_REQUEST} stage" }
-			response.setStatus(HttpResponseStatus.INTERNAL_SERVER_ERROR)
+		if (!runRoutes(InterceptOn.PRE_REQUEST, routes, request, response))
 			return writeResponse(ctx, request, response, routes)
-		}
 
 
 		// Looking for routes with a specific path (not ANY).
 		// If there are no routings with a specific path, then assume that it is 404.
 		if (routes.find { !it.routeData.url.isAny } != null)
-			try {
-				runRoutes(InterceptOn.PRE_EXECUTION, routes, request, response)
-				&& runRoutes(InterceptOn.EXECUTION, routes, request, response)
-				&& runRoutes(InterceptOn.POST_EXECUTION, routes, request, response)
-			}
-			catch(e: Throwable) {
-				server.logError(e) { "Exception during routing invocation" }
-				response.setStatus(HttpResponseStatus.INTERNAL_SERVER_ERROR)
-			}
+			runRoutes(InterceptOn.PRE_EXECUTION, routes, request, response)
+			&& runRoutes(InterceptOn.EXECUTION, routes, request, response)
+			&& runRoutes(InterceptOn.POST_EXECUTION, routes, request, response)
 		else {
 			// TODO: Return an allowed-methods response (405)
 			response.setStatus(HttpResponseStatus.NOT_FOUND)
@@ -54,9 +41,16 @@ class HttpRequestHandler(
 	}
 
 	private fun runRoutes(interceptOn: InterceptOn, routes: List<RouteDataToParams>, request: Request, response: Response): Boolean {
-		for ((route, params) in routes)
-			if (route.interceptOn === interceptOn && !route.interceptor.intercept(request, response, params))
-				return false
+		try {
+			for ((route, params) in routes)
+				if (route.interceptOn === interceptOn && !route.interceptor.intercept(request, response, params))
+					return false
+		}
+		catch(e: Throwable) {
+			response.setStatus(HttpResponseStatus.INTERNAL_SERVER_ERROR)
+			server.logError(e) { "Exception during $interceptOn stage" }
+			return false
+		}
 
 		return true
 	}

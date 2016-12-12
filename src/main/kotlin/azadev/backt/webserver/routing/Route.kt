@@ -1,6 +1,8 @@
 package azadev.backt.webserver.routing
 
 import azadev.backt.webserver.utils.isLetterOrDigitASCII
+import azadev.backt.webserver.utils.toNotEmptyString
+import java.net.URLEncoder
 
 
 class Route(
@@ -71,24 +73,32 @@ class Route(
 
 		val query = queryParams
 		if (query != null && query.isNotEmpty()) {
-			var i = 0
-			for ((k, v) in query) {
-				val key = k?.toString()
-				if (key.isNullOrEmpty()) continue
+			val startLen = sb.length
+			for ((_key, values) in query) {
+				val key = _key?.toNotEmptyString() ?: continue
 
-				if (i++ == 0) sb.append('?')
-				else sb.append('&')
-
-				sb.append(key)
-				val value = v?.toString()
-				if (value.isNullOrEmpty()) continue
-
-				sb.append('=').append(java.net.URLEncoder.encode(value, "UTF-8"))
+				if (values is List<*>)
+					for (v in values)
+						appendQuery(sb, startLen, key, v)
+				else
+					appendQuery(sb, startLen, key, values)
 			}
 		}
 
 		return sb.toString()
 	}
+
+	private fun appendQuery(sb: StringBuilder, startLen: Int, key: String, _value: Any?) {
+		if (sb.length == startLen) sb.append('?')
+		else sb.append('&')
+
+		sb.append(URLEncoder.encode(key, "UTF-8"))
+
+		val value = _value?.toNotEmptyString() ?: return
+		sb.append('=')
+		sb.append(URLEncoder.encode(value, "UTF-8"))
+	}
+
 
 	operator fun plus(path: String) = azadev.backt.webserver.routing.Route("$pattern$path")
 

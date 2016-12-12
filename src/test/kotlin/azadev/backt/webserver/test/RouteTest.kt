@@ -32,19 +32,22 @@ class RouteTest
 	}
 
 	@Test fun compilation_withQuery() {
-		checkCompilation("?p1=123",                     "", query = mapOf("p1" to 123))
-		checkCompilation("/?p1=123",                    "/", query = mapOf("p1" to 123))
+		checkCompilation("/path?a=1&a=2&b=3",           "/path", query = mapOf("a" to listOf(1,2), "b" to 3))
 
-		checkCompilation("/",                           "/", query = emptyMap<String,String>())
-		checkCompilation("/",                           "/", query = mapOf("" to 123))
+		checkCompilation("?1=222",                      "", query = mapOf(1 to 222))
+
+		checkCompilation("/",                           "/", query = emptyMap<String, String>())
+		checkCompilation("/",                           "/", query = mapOf("a" to emptyList<String>()))
+		checkCompilation("/?a",                         "/", query = mapOf("a" to null))
 		checkCompilation("/",                           "/", query = mapOf(null to 123))
-		checkCompilation("/?p1",                        "/", query = mapOf("p1" to ""))
+		checkCompilation("/",                           "/", query = mapOf("" to 123))
+		checkCompilation("/?a",                         "/", query = mapOf("a" to ""))
 
 		checkCompilation(
-				"/first/second?p1=123&p2=%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82%21+%D0%BA%D0%B0%D0%BA+%D0%B4%D0%B5%D0%BB%D0%B0%3F",
-				"/first/:p1",
+				"/first/second?a=111&b=%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82%21+%D0%BA%D0%B0%D0%BA+%D0%B4%D0%B5%D0%BB%D0%B0%3F",
+				"/first/:2nd",
 				"second",
-				query = mapOf("p1" to 123, "p2" to "привет! как дела?")
+				query = mapOf("a" to 111, "b" to "привет! как дела?")
 		)
 	}
 

@@ -65,11 +65,10 @@ class HttpRequestHandler(
 		if (response.status.code() / 100 == 4 || response.status.code() / 100 == 5)
 			runRoutes(InterceptOn.ERROR, routes, request, response)
 
-
-		if (response.sendFilePath != null) {
+		if (response.filePathToSend != null) {
 			// http://netty.io/4.1/xref/io/netty/example/http/file/HttpStaticFileServerHandler.html
 
-			val file = File(response.sendFilePath)
+			val file = File(response.filePathToSend)
 			val fileLength = file.length()
 
 			val httpResponse = DefaultHttpResponse(HttpVersion.HTTP_1_1, response.status)
@@ -80,10 +79,10 @@ class HttpRequestHandler(
 					.addListener(ChannelFutureListener.CLOSE)
 		}
 		else {
-			val sendBuffer = response.sendBuffer
-			val buf = when (sendBuffer) {
+			val bufferToSend = response.bufferToSend
+			val buf = when (bufferToSend) {
 				null -> Unpooled.buffer(0)
-				else -> Unpooled.copiedBuffer(sendBuffer.toString(), Charsets.UTF_8)
+				else -> Unpooled.copiedBuffer(bufferToSend.toString(), Charsets.UTF_8)
 			}
 
 			val httpResponse = DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, buf)

@@ -48,7 +48,8 @@ class HttpRequestHandler(
 		}
 		catch(e: Throwable) {
 			response.setStatus(HttpResponseStatus.INTERNAL_SERVER_ERROR)
-			server.logError(e) { "Exception during $interceptOn stage" }
+			server.exceptionHandler?.invoke(e, interceptOn)
+					?: server.logError(e) { "Exception during $interceptOn stage" }
 			return false
 		}
 
@@ -73,7 +74,7 @@ class HttpRequestHandler(
 					.addListener(ChannelFutureListener.CLOSE)
 		}
 		else {
-			val bufferToSend = response.bufferToSend
+			val bufferToSend = response.dataToSend
 			val buf = when (bufferToSend) {
 				null -> Unpooled.buffer(0)
 				else -> Unpooled.copiedBuffer(bufferToSend.toString(), Charsets.UTF_8)

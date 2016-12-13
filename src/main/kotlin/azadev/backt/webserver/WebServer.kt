@@ -1,6 +1,7 @@
 package azadev.backt.webserver
 
-import azadev.backt.webserver.http.*
+import azadev.backt.webserver.http.CallReferences
+import azadev.backt.webserver.http.HttpRequestHandler
 import azadev.backt.webserver.intercept.*
 import azadev.backt.webserver.logging.*
 import azadev.backt.webserver.routing.RouteData
@@ -21,15 +22,17 @@ class WebServer(
 		val port: Int = 80,
 		val maxConnections: Int = 1000,
 		override val logger: ILogger? = null,
-		override val logLevel: LogLevel = LogLevel.DEBUG
-) : ILogging {
+		override val logLevel: LogLevel = LogLevel.DEBUG,
+		var exceptionHandler: ((Throwable, InterceptOn)->Unit)? = null
+) : ILogging
+{
 	lateinit var bossGroup: NioEventLoopGroup
 	lateinit var workerGroup: NioEventLoopGroup
 
 	val routes = java.util.ArrayList<RouteData>()
 
 
-	fun start() {
+	fun start(wait: Boolean = false) {
 		bossGroup = NioEventLoopGroup()
 		workerGroup = NioEventLoopGroup()
 
@@ -39,7 +42,7 @@ class WebServer(
 				.childHandler(object : ChannelInitializer<SocketChannel>() {
 					override fun initChannel(ch: SocketChannel) {
 						ch.pipeline().addLast(
-								TraceHandler(),
+//								TraceHandler(),
 
 //								HttpServerCodec(), // request decoder + response encoder
 								HttpRequestDecoder(),
@@ -56,10 +59,8 @@ class WebServer(
 
 		val future = bootstrap.bind(port).sync()
 
-		future.channel().closeFuture().sync()
-
-		workerGroup.shutdownGracefully()
-		bossGroup.shutdownGracefully()
+		if (wait)
+			future.channel().closeFuture().sync()
 	}
 
 	fun stop() {

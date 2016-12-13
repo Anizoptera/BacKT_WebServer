@@ -29,4 +29,5 @@ dependencies {
 	compile "com.sun.mail:javax.mail:1.5.5"
 
 	testCompile "junit:junit:$junit_version"
+	testCompile "com.squareup.okhttp3:okhttp:3.5.0"
 }

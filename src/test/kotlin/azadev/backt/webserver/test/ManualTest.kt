@@ -14,6 +14,6 @@ class ManualTest
 				true
 			})
 
-			server.start()
+			server.start(wait = true)
 	}
 }

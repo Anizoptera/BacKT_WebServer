@@ -7,6 +7,7 @@ import azadev.backt.webserver.routing.filterRoutes
 import io.netty.buffer.Unpooled
 import io.netty.channel.*
 import io.netty.handler.codec.http.*
+import io.netty.util.ReferenceCountUtil
 import java.io.File
 
 
@@ -15,7 +16,7 @@ class HttpRequestHandler(
 ) : ChannelInboundHandlerAdapter()
 {
 	override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-		msg as? FullHttpRequest ?: return
+		msg as? FullHttpRequest ?: return super.channelRead(ctx, msg)
 
 		val request = Request(msg)
 		val response = Response()
@@ -23,7 +24,7 @@ class HttpRequestHandler(
 
 
 		if (!runRoutes(InterceptOn.PRE_REQUEST, routes, request, response))
-			return writeResponse(ctx, request, response, routes)
+			return writeResponse(ctx, msg, request, response, routes)
 
 
 		// Looking for routes with a specific path (not ANY).
@@ -37,7 +38,7 @@ class HttpRequestHandler(
 			response.setStatus(HttpResponseStatus.NOT_FOUND)
 		}
 
-		writeResponse(ctx, request, response, routes)
+		writeResponse(ctx, msg, request, response, routes)
 	}
 
 	private fun runRoutes(interceptOn: InterceptOn, routes: List<RouteDataToParams>, request: Request, response: Response): Boolean {
@@ -56,7 +57,7 @@ class HttpRequestHandler(
 		return true
 	}
 
-	private fun writeResponse(ctx: ChannelHandlerContext, request: Request, response: Response, routes: List<RouteDataToParams>) {
+	private fun writeResponse(ctx: ChannelHandlerContext, msg: Any, request: Request, response: Response, routes: List<RouteDataToParams>) {
 		if (response.status.code() / 100 == 4 || response.status.code() / 100 == 5)
 			runRoutes(InterceptOn.ERROR, routes, request, response)
 
@@ -87,5 +88,6 @@ class HttpRequestHandler(
 		}
 
 		runRoutes(InterceptOn.POST_REQUEST, routes, request, response)
+		ReferenceCountUtil.release(msg)
 	}
 }

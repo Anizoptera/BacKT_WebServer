@@ -81,7 +81,7 @@ class HttpRequestHandler(
 				else -> Unpooled.copiedBuffer(bufferToSend.toString(), Charsets.UTF_8)
 			}
 
-			val httpResponse = DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, buf)
+			val httpResponse = DefaultFullHttpResponse(HttpVersion.HTTP_1_1, response.status, buf)
 			httpResponse.headers().add(response.headers)
 			ctx.writeAndFlush(httpResponse)
 					.addListener(ChannelFutureListener.CLOSE)

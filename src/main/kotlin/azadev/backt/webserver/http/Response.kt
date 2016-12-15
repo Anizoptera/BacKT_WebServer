@@ -51,8 +51,8 @@ class Response
 			= sendFile(File(pathname), contentType)
 
 
-	fun setStatus(code: HttpResponseStatus): Boolean {
-		status = code
+	fun setStatus(_status: HttpResponseStatus): Boolean {
+		status = _status
 		return false
 	}
 

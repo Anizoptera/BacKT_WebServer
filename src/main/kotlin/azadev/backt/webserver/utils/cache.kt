@@ -31,7 +31,7 @@ inline fun handleETagCache(callReferences: CallReferences, eTagCacheKey: String?
 	}
 	else eTag = geterateETag(eTagCreator())
 
-	if (eTag.equals(incomingETag, ignoreCase = true)) {
+	if (incomingETag != null && eTag.equals(incomingETag, ignoreCase = true)) {
 		callReferences.logVerbose { "Asset is not modified (ETag) // eTag=$eTag" }
 		return true
 	}
@@ -45,7 +45,7 @@ fun handleETagCache(callReferences: CallReferences, file: File)
 
 
 fun handleLastModCache(callReferences: CallReferences, file: File): Boolean {
-	val ifModifiedSince = parseHttpDate(callReferences.request.headers["If-Modified-Since"])?.run { (time / 1000L).toInt() }
+	val ifModifiedSince = parseHttpDate(callReferences.request.headers["If-Modified-Since"] ?: "")?.run { (time / 1000L).toInt() }
 
 	val lastModified = (file.lastModified() / 1000L).toInt()
 	if (ifModifiedSince == lastModified) {

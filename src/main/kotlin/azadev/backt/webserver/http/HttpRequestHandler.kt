@@ -18,6 +18,8 @@ class HttpRequestHandler(
 	override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
 		msg as? FullHttpRequest ?: return super.channelRead(ctx, msg)
 
+		server.logDebug { "Request: ${msg.uri()}" }
+
 		val request = Request(msg)
 		val response = Response()
 		val routes = filterRoutes(server.routes, request)

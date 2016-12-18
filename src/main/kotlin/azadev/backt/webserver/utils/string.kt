@@ -20,3 +20,19 @@ internal fun <T : CharSequence> T?.ifNotNullOrEmpty(fn: T.()->Unit): T? {
 
 internal fun Char.isLetterOrDigitASCII()
 		= this >= '0' && this <= '9' || this >= 'A' && this <= 'Z' || this >= 'a' && this <= 'z'
+
+
+// More flexible way to parse numbers:
+// http://stackoverflow.com/a/4323628/4899346
+fun String?.toIntSafe(default: Int = 0): Int {
+	return try { this!!.toInt() }
+	catch(e: Throwable) { default }
+}
+fun String?.toFloatSafe(default: Float = 0f): Float {
+	return try { this!!.replace(',', '.').toFloat() }
+	catch(e: Throwable) { default }
+}
+fun String?.toByteSafe(default: Byte = 0): Byte {
+	return try { this!!.toByte() }
+	catch(e: Throwable) { default }
+}

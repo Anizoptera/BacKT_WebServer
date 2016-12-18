@@ -1,6 +1,7 @@
 package azadev.backt.webserver.http
 
 import azadev.backt.webserver.utils.notEmptyElse
+import azadev.backt.webserver.utils.toIntSafe
 import io.netty.buffer.ByteBuf
 import io.netty.handler.codec.http.*
 import io.netty.handler.codec.http.cookie.Cookie
@@ -12,6 +13,7 @@ class Request(
 		val httpRequest: FullHttpRequest
 ) {
 	val method: HttpMethod get() = httpRequest.method()
+	val scheme: String get() = "http" // Only HTTP is supported by now
 	val uri: String get() = httpRequest.uri()
 	var path: String
 	var query: String
@@ -20,6 +22,7 @@ class Request(
 
 	val headers: HttpHeaders get() = httpRequest.headers()
 	val host: String? get() = headers["Host"]
+	val port: Int? get() = host?.substringAfter(':', "")?.toIntSafe(80)
 	val referer: String? get() = headers["Referer"]
 
 	private var _cookies: Map<String, Cookie>? = null

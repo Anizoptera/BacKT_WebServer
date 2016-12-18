@@ -1,22 +1,17 @@
 package azadev.backt.webserver.http
 
 import azadev.backt.webserver.logging.ILogging
-import azadev.backt.webserver.logging.LogLevel
 import azadev.backt.webserver.routing.RouteParams
 import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.cookie.Cookie
 
 
-data class CallReferences(
+class CallReferences(
 		val request: Request,
 		val response: Response,
-		val routeParams: RouteParams
-) : ILogging // Temporary inheritance
-{
-	override val logger = null
-	override val logLevel = LogLevel.VERBOSE
-
-
+		val routeParams: RouteParams,
+		val logger: ILogging
+) {
 	val method: HttpMethod get() = request.method
 	val isGET: Boolean get() = method == HttpMethod.GET
 	val isPOST: Boolean get() = method == HttpMethod.POST

@@ -26,15 +26,12 @@ inline fun handleETagCache(callReferences: CallReferences, eTagCacheKey: String?
 		if (eTag.isNullOrEmpty()) {
 			eTag = geterateETag(eTagCreator())
 			cache[eTagCacheKey] = eTag
-			callReferences.logVerbose { "ETag cached: $eTag" }
 		}
 	}
 	else eTag = geterateETag(eTagCreator())
 
-	if (incomingETag != null && eTag.equals(incomingETag, ignoreCase = true)) {
-		callReferences.logVerbose { "Asset is not modified (ETag) // eTag=$eTag" }
-		return true
-	}
+	if (incomingETag != null && eTag.equals(incomingETag, ignoreCase = true))
+		return true // File is not modified
 
 	callReferences.response.headers["ETag"] = eTag
 	return false
@@ -48,10 +45,8 @@ fun handleLastModCache(callReferences: CallReferences, file: File): Boolean {
 	val ifModifiedSince = parseHttpDate(callReferences.request.headers["If-Modified-Since"] ?: "")?.run { (time / 1000L).toInt() }
 
 	val lastModified = (file.lastModified() / 1000L).toInt()
-	if (ifModifiedSince == lastModified) {
-		callReferences.logVerbose { "Asset is not modified (Last-Modified)" }
-		return true
-	}
+	if (ifModifiedSince == lastModified)
+		return true // File is not modified
 
 	callReferences.response.headers["Last-Modified"] = lastModified
 	return false

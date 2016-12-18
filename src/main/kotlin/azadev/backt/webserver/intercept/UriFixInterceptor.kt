@@ -1,5 +1,6 @@
 package azadev.backt.webserver.intercept
 
+import azadev.backt.webserver.WebServer
 import azadev.backt.webserver.http.Request
 import azadev.backt.webserver.http.Response
 import azadev.backt.webserver.routing.RouteParams
@@ -12,7 +13,7 @@ class UriFixInterceptor(
 		val wwwMode: Byte = WWWMODE_NONE
 ) : AInterceptor
 {
-	override fun intercept(request: Request, response: Response, routeParams: RouteParams): Boolean {
+	override fun intercept(server: WebServer, request: Request, response: Response, routeParams: RouteParams): Boolean {
 		var host = request.host
 		var path = request.path
 

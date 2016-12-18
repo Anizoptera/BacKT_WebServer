@@ -46,7 +46,7 @@ class HttpRequestHandler(
 	private fun runRoutes(interceptOn: InterceptOn, routes: List<RouteDataToParams>, request: Request, response: Response): Boolean {
 		try {
 			for ((route, params) in routes)
-				if (route.interceptOn === interceptOn && !route.interceptor.intercept(request, response, params))
+				if (route.interceptOn === interceptOn && !route.interceptor.intercept(server, request, response, params))
 					return false
 		}
 		catch(e: Throwable) {

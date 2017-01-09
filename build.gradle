@@ -30,4 +30,11 @@ dependencies {
 
 	testCompile "junit:junit:$junit_version"
 	testCompile "com.squareup.okhttp3:okhttp:3.5.0"
+
+	// Adding output jar-files into the 'testCompile' artifact,
+	// to let dependent projects refer to the test files of this project, like that:
+	// testCompile project(path: ':AzaWebServer', configuration: 'testCompile')
+	// Some useful info:
+	// https://softnoise.wordpress.com/2014/09/07/gradle-sub-project-test-dependencies-in-multi-project-builds/
+	testCompile sourceSets.test.output
 }

@@ -87,7 +87,7 @@ class Request(
 
 			loop1@while (true)
 				try {
-					val data = decoder.next()
+					val data = decoder.next() ?: break@loop1
 					val name = data.name
 					val lastIndex = name.lastIndex
 

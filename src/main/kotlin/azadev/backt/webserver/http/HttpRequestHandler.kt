@@ -2,6 +2,8 @@ package azadev.backt.webserver.http
 
 import azadev.backt.webserver.WebServer
 import azadev.backt.webserver.intercept.InterceptOn
+import azadev.backt.webserver.logging.logDebug
+import azadev.backt.webserver.logging.logError
 import azadev.backt.webserver.routing.RouteDataToParams
 import azadev.backt.webserver.routing.filterRoutes
 import io.netty.buffer.Unpooled
@@ -18,7 +20,7 @@ class HttpRequestHandler(
 	override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
 		msg as? FullHttpRequest ?: return super.channelRead(ctx, msg)
 
-		server.logDebug { "Request: ${msg.uri()}" }
+		server.logDebug("Request: ${msg.uri()}")
 
 		val request = Request(msg)
 		val response = Response()
@@ -52,7 +54,7 @@ class HttpRequestHandler(
 		catch(e: Throwable) {
 			response.setStatus(HttpResponseStatus.INTERNAL_SERVER_ERROR)
 			server.exceptionHandler?.invoke(e, interceptOn)
-					?: server.logError(e) { "Exception during $interceptOn stage" }
+					?: server.logError("Exception during $interceptOn stage", e)
 			return false
 		}
 

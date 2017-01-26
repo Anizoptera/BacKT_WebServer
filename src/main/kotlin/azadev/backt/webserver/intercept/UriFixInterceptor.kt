@@ -4,13 +4,13 @@ import azadev.backt.webserver.WebServer
 import azadev.backt.webserver.http.Request
 import azadev.backt.webserver.http.Response
 import azadev.backt.webserver.routing.RouteParams
-import azadev.backt.webserver.trackEvent
 import io.netty.handler.codec.http.HttpResponseStatus
 
 
 class UriFixInterceptor(
 		val pathTrimEndChars: CharArray? = null,
-		val wwwMode: Byte = WWWMODE_NONE
+		val wwwMode: Byte = WWWMODE_NONE,
+		val onUriFixed: ((String, String)->Unit)? = null
 ) : AInterceptor
 {
 	override fun intercept(server: WebServer, request: Request, response: Response, routeParams: RouteParams): Boolean {
@@ -38,7 +38,7 @@ class UriFixInterceptor(
 		if (host == request.host && path == request.path)
 			return true // Nothing's changed
 
-		trackEvent("Url is fixed", "${request.host ?: ""}${request.path} -> ${host ?: ""}$path")
+		onUriFixed?.invoke("${request.host ?: ""}${request.path}", "${host ?: ""}$path")
 
 		return response.redirect(buildString {
 			if (host != null) {

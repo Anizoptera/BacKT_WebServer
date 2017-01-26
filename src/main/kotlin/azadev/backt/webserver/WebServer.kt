@@ -3,7 +3,7 @@ package azadev.backt.webserver
 import azadev.backt.webserver.http.CallReferences
 import azadev.backt.webserver.http.HttpRequestHandler
 import azadev.backt.webserver.intercept.*
-import azadev.backt.webserver.logging.*
+import azadev.backt.webserver.logging.ILogging
 import azadev.backt.webserver.routing.RouteData
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelInitializer
@@ -21,11 +21,11 @@ http://netty.io/4.0/xref/io/netty/example/http/helloworld/package-summary.html
 class WebServer(
 		val port: Int = 80,
 		val maxConnections: Int = 1000,
-		override val logger: ILogger? = null,
-		override val logLevel: LogLevel = LogLevel.DEBUG,
 		var exceptionHandler: ((Throwable, InterceptOn)->Unit)? = null
 ) : ILogging
 {
+	override val logger = getDefaultLogger()
+
 	lateinit var bossGroup: NioEventLoopGroup
 	lateinit var workerGroup: NioEventLoopGroup
 

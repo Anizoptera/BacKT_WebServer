@@ -20,7 +20,7 @@ class HttpRequestHandler(
 	override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
 		msg as? FullHttpRequest ?: return super.channelRead(ctx, msg)
 
-		server.logDebug("Request: ${msg.uri()}")
+		server.logDebug("Request: ${msg.method()} ${msg.uri()}")
 
 		val request = Request(msg)
 		val response = Response()

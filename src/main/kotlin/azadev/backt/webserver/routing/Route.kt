@@ -100,7 +100,7 @@ class Route(
 	}
 
 
-	operator fun plus(path: String) = azadev.backt.webserver.routing.Route("$pattern$path")
+	operator fun plus(path: String) = Route("$pattern$path")
 
 
 	fun parseUri(path: String): RouteParams? {
@@ -130,7 +130,7 @@ class Route(
 
 	companion object
 	{
-		val ANY = azadev.backt.webserver.routing.Route("*")
-		val ROOT = azadev.backt.webserver.routing.Route("/")
+		val ANY = Route("*")
+		val ROOT = Route("/")
 	}
 }

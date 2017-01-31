@@ -6,7 +6,7 @@ import io.netty.handler.codec.http.HttpMethod
 
 
 class RouteData(
-		val url: azadev.backt.webserver.routing.Route,
+		val url: Route,
 		val method: HttpMethod?,
 		val interceptor: AInterceptor,
 		val interceptOn: InterceptOn

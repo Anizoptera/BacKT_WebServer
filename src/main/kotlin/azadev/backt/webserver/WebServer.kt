@@ -4,6 +4,7 @@ import azadev.backt.webserver.http.CallReferences
 import azadev.backt.webserver.http.HttpRequestHandler
 import azadev.backt.webserver.intercept.*
 import azadev.backt.webserver.logging.ILogging
+import azadev.backt.webserver.routing.Route
 import azadev.backt.webserver.routing.RouteData
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelInitializer
@@ -74,57 +75,57 @@ class WebServer(
 	}
 
 
-	fun get(url: azadev.backt.webserver.routing.Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.GET, url, interceptor, interceptOn)
-	fun get(url: azadev.backt.webserver.routing.Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = get(url, CallbackInterceptor(callback), interceptOn)
-	fun get(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = get(azadev.backt.webserver.routing.Route(path), interceptor, interceptOn)
-	fun get(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = get(azadev.backt.webserver.routing.Route(path), CallbackInterceptor(callback), interceptOn)
+	fun get(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.GET, url, interceptor, interceptOn)
+	fun get(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = get(url, CallbackInterceptor(callback), interceptOn)
+	fun get(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = get(Route(path), interceptor, interceptOn)
+	fun get(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = get(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun post(url: azadev.backt.webserver.routing.Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.POST, url, interceptor, interceptOn)
-	fun post(url: azadev.backt.webserver.routing.Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = post(url, CallbackInterceptor(callback), interceptOn)
-	fun post(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = post(azadev.backt.webserver.routing.Route(path), interceptor, interceptOn)
-	fun post(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = post(azadev.backt.webserver.routing.Route(path), CallbackInterceptor(callback), interceptOn)
+	fun post(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.POST, url, interceptor, interceptOn)
+	fun post(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = post(url, CallbackInterceptor(callback), interceptOn)
+	fun post(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = post(Route(path), interceptor, interceptOn)
+	fun post(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = post(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun put(url: azadev.backt.webserver.routing.Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.PUT, url, interceptor, interceptOn)
-	fun put(url: azadev.backt.webserver.routing.Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = put(url, CallbackInterceptor(callback), interceptOn)
-	fun put(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = put(azadev.backt.webserver.routing.Route(path), interceptor, interceptOn)
-	fun put(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = put(azadev.backt.webserver.routing.Route(path), CallbackInterceptor(callback), interceptOn)
+	fun put(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.PUT, url, interceptor, interceptOn)
+	fun put(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = put(url, CallbackInterceptor(callback), interceptOn)
+	fun put(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = put(Route(path), interceptor, interceptOn)
+	fun put(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = put(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun head(url: azadev.backt.webserver.routing.Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.HEAD, url, interceptor, interceptOn)
-	fun head(url: azadev.backt.webserver.routing.Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = head(url, CallbackInterceptor(callback), interceptOn)
-	fun head(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = head(azadev.backt.webserver.routing.Route(path), interceptor, interceptOn)
-	fun head(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = head(azadev.backt.webserver.routing.Route(path), CallbackInterceptor(callback), interceptOn)
+	fun head(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.HEAD, url, interceptor, interceptOn)
+	fun head(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = head(url, CallbackInterceptor(callback), interceptOn)
+	fun head(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = head(Route(path), interceptor, interceptOn)
+	fun head(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = head(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun delete(url: azadev.backt.webserver.routing.Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.DELETE, url, interceptor, interceptOn)
-	fun delete(url: azadev.backt.webserver.routing.Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = delete(url, CallbackInterceptor(callback), interceptOn)
-	fun delete(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = delete(azadev.backt.webserver.routing.Route(path), interceptor, interceptOn)
-	fun delete(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = delete(azadev.backt.webserver.routing.Route(path), CallbackInterceptor(callback), interceptOn)
+	fun delete(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.DELETE, url, interceptor, interceptOn)
+	fun delete(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = delete(url, CallbackInterceptor(callback), interceptOn)
+	fun delete(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = delete(Route(path), interceptor, interceptOn)
+	fun delete(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = delete(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun options(url: azadev.backt.webserver.routing.Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.OPTIONS, url, interceptor, interceptOn)
-	fun options(url: azadev.backt.webserver.routing.Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = options(url, CallbackInterceptor(callback), interceptOn)
-	fun options(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = options(azadev.backt.webserver.routing.Route(path), interceptor, interceptOn)
-	fun options(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = options(azadev.backt.webserver.routing.Route(path), CallbackInterceptor(callback), interceptOn)
+	fun options(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.OPTIONS, url, interceptor, interceptOn)
+	fun options(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = options(url, CallbackInterceptor(callback), interceptOn)
+	fun options(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = options(Route(path), interceptor, interceptOn)
+	fun options(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = options(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun patch(url: azadev.backt.webserver.routing.Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.PATCH, url, interceptor, interceptOn)
-	fun patch(url: azadev.backt.webserver.routing.Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = patch(url, CallbackInterceptor(callback), interceptOn)
-	fun patch(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = patch(azadev.backt.webserver.routing.Route(path), interceptor, interceptOn)
-	fun patch(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = patch(azadev.backt.webserver.routing.Route(path), CallbackInterceptor(callback), interceptOn)
+	fun patch(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.PATCH, url, interceptor, interceptOn)
+	fun patch(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = patch(url, CallbackInterceptor(callback), interceptOn)
+	fun patch(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = patch(Route(path), interceptor, interceptOn)
+	fun patch(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = patch(Route(path), CallbackInterceptor(callback), interceptOn)
 
 
-	fun getAndPost(url: azadev.backt.webserver.routing.Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) {
+	fun getAndPost(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) {
 		get(url, interceptor, interceptOn)
 		post(url, interceptor, interceptOn)
 	}
-	fun getAndPost(url: azadev.backt.webserver.routing.Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getAndPost(url, CallbackInterceptor(callback), interceptOn)
-	fun getAndPost(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getAndPost(azadev.backt.webserver.routing.Route(path), interceptor, interceptOn)
-	fun getAndPost(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getAndPost(azadev.backt.webserver.routing.Route(path), CallbackInterceptor(callback), interceptOn)
+	fun getAndPost(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getAndPost(url, CallbackInterceptor(callback), interceptOn)
+	fun getAndPost(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getAndPost(Route(path), interceptor, interceptOn)
+	fun getAndPost(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getAndPost(Route(path), CallbackInterceptor(callback), interceptOn)
 
 
-	fun route(method: HttpMethod?, url: azadev.backt.webserver.routing.Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) {
+	fun route(method: HttpMethod?, url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) {
 		routes.add(RouteData(url, method, interceptor, interceptOn))
 	}
-	fun route(method: HttpMethod?, url: azadev.backt.webserver.routing.Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(method, url, CallbackInterceptor(callback), interceptOn)
-	fun route(method: HttpMethod?, path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(method, azadev.backt.webserver.routing.Route(path), interceptor, interceptOn)
-	fun route(method: HttpMethod?, path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(method, azadev.backt.webserver.routing.Route(path), CallbackInterceptor(callback), interceptOn)
-	fun route(interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(null, azadev.backt.webserver.routing.Route.ANY, interceptor, interceptOn)
-	fun route(callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(null, azadev.backt.webserver.routing.Route.ANY, CallbackInterceptor(callback), interceptOn)
+	fun route(method: HttpMethod?, url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(method, url, CallbackInterceptor(callback), interceptOn)
+	fun route(method: HttpMethod?, path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(method, Route(path), interceptor, interceptOn)
+	fun route(method: HttpMethod?, path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(method, Route(path), CallbackInterceptor(callback), interceptOn)
+	fun route(interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(null, Route.ANY, interceptor, interceptOn)
+	fun route(callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(null, Route.ANY, CallbackInterceptor(callback), interceptOn)
 }

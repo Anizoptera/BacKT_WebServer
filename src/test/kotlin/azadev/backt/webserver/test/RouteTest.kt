@@ -1,8 +1,7 @@
 package azadev.backt.webserver.test
 
 import azadev.backt.webserver.routing.Route
-import org.junit.Assert
-import org.junit.Test
+import org.junit.*
 
 
 class RouteTest
@@ -52,7 +51,7 @@ class RouteTest
 	}
 
 	private fun checkCompilation(expected: String, pattern: String, vararg params: Any, query: Map<*, *>? = null) {
-		Assert.assertEquals(expected, (azadev.backt.webserver.routing.Route(pattern))(*params, queryParams = query))
+		Assert.assertEquals(expected, (Route(pattern))(*params, queryParams = query))
 	}
 
 

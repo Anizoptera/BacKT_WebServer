@@ -6,7 +6,7 @@ interface ServerError
 	val type: CharSequence
 	val code: CharSequence
 
-	val summary: String get() = "${javaClass.simpleName}($type, $code)"
+	val summary: String get() = "${javaClass.simpleName}($type;$code)"
 
 
 	companion object

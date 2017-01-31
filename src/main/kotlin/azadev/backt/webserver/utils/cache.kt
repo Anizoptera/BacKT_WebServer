@@ -2,6 +2,7 @@ package azadev.backt.webserver.utils
 
 import azadev.backt.webserver.http.CallReferences
 import java.io.File
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 
@@ -44,10 +45,11 @@ fun handleETagCache(callReferences: CallReferences, file: File)
 fun handleLastModCache(callReferences: CallReferences, file: File): Boolean {
 	val ifModifiedSince = parseHttpDate(callReferences.request.headers["If-Modified-Since"] ?: "")?.run { (time / 1000L).toInt() }
 
-	val lastModified = (file.lastModified() / 1000L).toInt()
+	val lastModifiedMsec = file.lastModified()
+	val lastModified = (lastModifiedMsec / 1000L).toInt()
 	if (ifModifiedSince == lastModified)
 		return true // File is not modified
 
-	callReferences.response.headers["Last-Modified"] = lastModified
+	callReferences.response.headers["Last-Modified"] = dateToHttpFormat(Date(lastModifiedMsec))
 	return false
 }

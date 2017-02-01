@@ -1,8 +1,8 @@
 package azadev.backt.webserver.test
 
 import azadev.backt.webserver.utils.*
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.*
+import org.junit.Assert.*
 
 
 class UtilsTest
@@ -37,5 +37,15 @@ class UtilsTest
 				listOf("<p>Восхитительное удовольствие!","с восхитительным вкусом.","<b>Банан</b> 80% воды, крахмал (7-20%), витамины С, РР.","не уступают цитрусовым.","Спирулина."),
 				"<p>Восхитительное удовольствие! \n \nс восхитительным вкусом. \n<b>Банан</b> 80% воды, крахмал (7-20%), витамины С, РР. не уступают цитрусовым.\nСпирулина. ".splitBySentences()
 		)
+	}
+
+	@Test fun ipAddressConversions() {
+		assertEquals(520712856, ipToInt("31.9.114.152"))
+		assertEquals(-1062731675, ipToInt("192.168.0.101"))
+		assertEquals(-1, ipToInt("255.255.255.255"))
+
+		assertEquals("31.9.114.152", intToIpString(520712856))
+		assertEquals("192.168.0.101", intToIpString(-1062731675))
+		assertEquals("255.255.255.255", intToIpString(-1))
 	}
 }

@@ -7,10 +7,12 @@ import io.netty.handler.codec.http.*
 import io.netty.handler.codec.http.cookie.Cookie
 import io.netty.handler.codec.http.cookie.ServerCookieDecoder
 import io.netty.handler.codec.http.multipart.*
+import java.net.InetSocketAddress
 
 
 class Request(
-		val httpRequest: FullHttpRequest
+		val httpRequest: FullHttpRequest,
+		val remoteAddress: InetSocketAddress? = null
 ) {
 	val method: HttpMethod get() = httpRequest.method()
 	val scheme: String get() = "http" // Only HTTP is supported by now

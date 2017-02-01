@@ -11,6 +11,7 @@ import io.netty.channel.*
 import io.netty.handler.codec.http.*
 import io.netty.util.ReferenceCountUtil
 import java.io.File
+import java.net.InetSocketAddress
 
 
 class HttpRequestHandler(
@@ -22,7 +23,7 @@ class HttpRequestHandler(
 
 		server.logDebug("Request: ${msg.method()} ${msg.uri()}")
 
-		val request = Request(msg)
+		val request = Request(msg, ctx.channel().remoteAddress() as? InetSocketAddress)
 		val response = Response()
 		val routes = filterRoutes(server.routes, request)
 

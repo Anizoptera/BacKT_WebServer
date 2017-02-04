@@ -1,6 +1,5 @@
 package azadev.backt.webserver.http
 
-import azadev.backt.webserver.logging.ILoggerHolder
 import azadev.backt.webserver.routing.RouteParams
 import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.cookie.Cookie
@@ -9,8 +8,7 @@ import io.netty.handler.codec.http.cookie.Cookie
 class CallReferences(
 		val request: Request,
 		val response: Response,
-		val routeParams: RouteParams,
-		val logger: ILoggerHolder
+		val routeParams: RouteParams
 ) {
 	val method: HttpMethod get() = request.method
 	val isGET: Boolean get() = method == HttpMethod.GET

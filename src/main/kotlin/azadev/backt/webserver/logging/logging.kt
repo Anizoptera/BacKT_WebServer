@@ -64,3 +64,27 @@ fun Any?.logWarning(msg: Any?, ex: Throwable) = log(Level.WARN, msg, ex)
 fun Any?.logError(msg: Any?) = log(Level.ERROR, msg)
 fun Any?.logError(msg: Any?, vararg args: Any) = log(Level.ERROR, msg, null, args)
 fun Any?.logError(msg: Any?, ex: Throwable) = log(Level.ERROR, msg, ex)
+
+
+interface ILogging
+{
+	fun logVerbose(msg: Any?) = log(Level.TRACE, msg)
+	fun logVerbose(msg: Any?, vararg args: Any) = log(Level.TRACE, msg, null, args)
+	fun logVerbose(msg: Any?, ex: Throwable) = log(Level.TRACE, msg, ex)
+
+	fun logDebug(msg: Any?) = log(Level.DEBUG, msg)
+	fun logDebug(msg: Any?, vararg args: Any) = log(Level.DEBUG, msg, null, args)
+	fun logDebug(msg: Any?, ex: Throwable) = log(Level.DEBUG, msg, ex)
+
+	fun logInfo(msg: Any?) = log(Level.INFO, msg)
+	fun logInfo(msg: Any?, vararg args: Any) = log(Level.INFO, msg, null, args)
+	fun logInfo(msg: Any?, ex: Throwable) = log(Level.INFO, msg, ex)
+
+	fun logWarning(msg: Any?) = log(Level.WARN, msg)
+	fun logWarning(msg: Any?, vararg args: Any) = log(Level.WARN, msg, null, args)
+	fun logWarning(msg: Any?, ex: Throwable) = log(Level.WARN, msg, ex)
+
+	fun logError(msg: Any?) = log(Level.ERROR, msg)
+	fun logError(msg: Any?, vararg args: Any) = log(Level.ERROR, msg, null, args)
+	fun logError(msg: Any?, ex: Throwable) = log(Level.ERROR, msg, ex)
+}

@@ -6,9 +6,6 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
 
-private const val LOG_TAG = "Mail"
-
-
 // http://www.tutorialspoint.com/java/java_sending_email.htm
 // http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
 // https://support.google.com/mail/answer/13287

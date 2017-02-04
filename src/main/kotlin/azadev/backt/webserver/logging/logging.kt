@@ -7,7 +7,7 @@ import org.slf4j.event.Level
 
 private fun Any?.log(level: Level, _msg: Any?, ex: Throwable? = null, args: Array<out Any>? = null) {
 	val logger = when (this) {
-		is ILogging -> logger
+		is ILoggerHolder -> logger
 		is Logger -> this
 		is String -> LoggerFactory.getLogger(this)
 		else -> LoggerFactory.getLogger(this?.javaClass?.name ?: "null")

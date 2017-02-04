@@ -4,7 +4,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 
-interface ILogging
+interface ILoggerHolder
 {
 	val logger: Logger
 

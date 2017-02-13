@@ -26,6 +26,7 @@ class Request(
 	val host: String? get() = headers["Host"]
 	val port: Int? get() = host?.substringAfter(':', "")?.toIntSafe(80)
 	val referer: String? get() = headers["Referer"]
+	val userAgent: String? get() = headers["User-Agent"]
 
 	private var _cookies: Map<String, Cookie>? = null
 	val cookies: Map<String, Cookie>

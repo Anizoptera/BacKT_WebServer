@@ -13,23 +13,23 @@ fun geterateETag(value: String, isWeak: Boolean = true)
 var eTagCache: ConcurrentHashMap<String, String>? = null
 const val MUTEX: Byte = 1
 
-inline fun handleETagCache(callReferences: CallReferences, eTagCacheKey: String? = null, eTagCreator: ()->String): Boolean {
+inline fun handleETagCache(callReferences: CallReferences, cacheKey: String? = null, tagCreator: ()->String): Boolean {
 	val incomingETag = callReferences.request.headers["If-None-Match"]
 
 	var eTag: String
-	if (eTagCacheKey != null) {
+	if (cacheKey != null) {
 		val cache = eTagCache ?: synchronized(MUTEX) {
 			eTagCache = eTagCache ?: ConcurrentHashMap<String, String>(10)
 			eTagCache!!
 		}
 
-		eTag = cache[eTagCacheKey] ?: ""
+		eTag = cache[cacheKey] ?: ""
 		if (eTag.isNullOrEmpty()) {
-			eTag = geterateETag(eTagCreator())
-			cache[eTagCacheKey] = eTag
+			eTag = geterateETag(tagCreator())
+			cache[cacheKey] = eTag
 		}
 	}
-	else eTag = geterateETag(eTagCreator())
+	else eTag = geterateETag(tagCreator())
 
 	if (incomingETag != null && eTag.equals(incomingETag, ignoreCase = true))
 		return true // File is not modified
@@ -38,8 +38,10 @@ inline fun handleETagCache(callReferences: CallReferences, eTagCacheKey: String?
 	return false
 }
 
-fun handleETagCache(callReferences: CallReferences, file: File)
-		= handleETagCache(callReferences, file.path, { file.readText().hashCode().toString() })
+fun handleETagCache(callReferences: CallReferences, file: File): Boolean {
+	val lastMod = file.lastModified()
+	return handleETagCache(callReferences, "${file.path}|$lastMod", { lastMod.hashCode().toString() })
+}
 
 
 fun handleLastModCache(callReferences: CallReferences, file: File): Boolean {

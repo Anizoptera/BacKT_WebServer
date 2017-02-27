@@ -80,6 +80,8 @@ class RouteTest
 		checkMatching("/first/:a/#id",          "/first/second/third",      false)
 
 		checkMatching("/assets/:type/*.:ext",   "/assets/img/bg.jpg",       true,   "type" to "img", "*" to "bg", "ext" to "jpg")
+		// Questionable case
+		checkMatching("/assets/:type/*.:ext",   "/assets/img/bg.top.jpg",   true,   "type" to "img", "*" to "bg", "ext" to "top.jpg")
 		checkMatching("/img*/#id*.:ext",        "/img/123.jpg",             true,   "*" to "", "id" to "123", "**" to "", "ext" to "jpg")
 		checkMatching("/img*/#id*.:ext",        "/img_s1/123_title.jpg",    true,   "*" to "_s1", "id" to "123", "**" to "_title", "ext" to "jpg")
 		checkMatching("/img*/#id*.:ext",        "/img_s1/123_title",        false)

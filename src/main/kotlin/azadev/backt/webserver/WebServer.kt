@@ -22,7 +22,7 @@ http://netty.io/4.0/xref/io/netty/example/http/helloworld/package-summary.html
 class WebServer(
 		val port: Int = 80,
 		val maxConnections: Int = 1000,
-		var exceptionHandler: ((Throwable, InterceptOn)->Unit)? = null
+		val exceptionHandler: (CallReferences.(Throwable, InterceptOn)->Unit)? = null
 ) : ILoggerHolder
 {
 	override val logger = getDefaultLogger()

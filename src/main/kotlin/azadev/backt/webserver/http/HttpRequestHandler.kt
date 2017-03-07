@@ -47,17 +47,17 @@ class HttpRequestHandler(
 	}
 
 	private fun runRoutes(interceptOn: InterceptOn, routes: List<RouteDataToParams>, request: Request, response: Response): Boolean {
-		try {
-			for ((route, params) in routes)
+		for ((route, params) in routes)
+			try {
 				if (route.interceptOn === interceptOn && !route.interceptor.intercept(server, request, response, params))
 					return false
-		}
-		catch(e: Throwable) {
-			response.setStatus(HttpResponseStatus.INTERNAL_SERVER_ERROR)
-			server.exceptionHandler?.invoke(e, interceptOn)
-					?: server.logError("Exception during $interceptOn stage", e)
-			return false
-		}
+			}
+			catch(e: Throwable) {
+				response.setStatus(HttpResponseStatus.INTERNAL_SERVER_ERROR)
+				server.exceptionHandler?.invoke(CallReferences(request, response, params), e, interceptOn)
+						?: server.logError("Exception during $interceptOn stage", e)
+				return false
+			}
 
 		return true
 	}

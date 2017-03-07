@@ -15,8 +15,10 @@ abstract class AServerTest
 	@Suppress("unused")
 	@Before fun startServer() {
 		print("Starting server")
-		server = WebServer(port = port)
-		server.exceptionHandler = { ex, on -> println(ex) }
+		server = WebServer(
+				port = port,
+				exceptionHandler = { ex, _ -> println(ex) }
+		)
 		server.start()
 		println(" OK")
 	}

@@ -5,6 +5,9 @@ import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.cookie.Cookie
 
 
+/**
+ * Wrapper containing general data needed to handle a request.
+ */
 class CallReferences(
 		val request: Request,
 		val response: Response,
@@ -14,7 +17,7 @@ class CallReferences(
 	val isGET: Boolean get() = method == HttpMethod.GET
 	val isPOST: Boolean get() = method == HttpMethod.POST
 
-//	val queryParams: Map<String, String> get() = request.queryParams
+	val queryParams: Map<String, List<String>> get() = request.queryParams
 	val bodyValues: Map<String, Any> get() = request.bodyValues
 
 	val cookies: Map<String, Cookie>

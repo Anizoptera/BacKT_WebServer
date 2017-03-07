@@ -4,7 +4,6 @@ version "1.0"
 buildscript {
 	repositories {
 		jcenter()
-		maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1' }
 	}
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -13,11 +12,8 @@ buildscript {
 
 apply plugin: 'kotlin'
 
-sourceCompatibility = 1.6
-
 repositories {
 	jcenter()
-	maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1' }
 }
 
 dependencies {

@@ -79,3 +79,21 @@ fun sendMailViaGmail(from: String, pass: String, to: String, subject: String, te
 		return false
 	}
 }
+
+fun receiveEmailViaImap(
+		user: String,
+		pass: String,
+		host: String = "imap.gmail.com",
+		folderName: String = "INBOX",
+		limit: Int = Int.MAX_VALUE
+): Array<out Message> {
+	val session = Session.getInstance(Properties())
+	val store = session.getStore("imaps")
+	store.connect(host, user, pass)
+
+	val folder = store.getFolder(folderName)
+	folder.open(Folder.READ_ONLY)
+
+	val count = folder.messageCount
+	return folder.getMessages(Math.max(count-limit+1, 1), count)
+}

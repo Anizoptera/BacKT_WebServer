@@ -2,6 +2,10 @@ group "azadev.backt"
 version "1.0"
 
 buildscript {
+	// http://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-gradle-plugin
+	// https://plugins.jetbrains.com/plugin/6954-kotlin
+	ext.kotlin_version = "1.1.+"
+
 	repositories {
 		jcenter()
 	}
@@ -10,7 +14,7 @@ buildscript {
 	}
 }
 
-apply plugin: 'kotlin'
+apply plugin: "kotlin"
 
 repositories {
 	jcenter()
@@ -19,6 +23,7 @@ repositories {
 dependencies {
 	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
+	// http://mvnrepository.com/artifact/io.netty/netty-all
 	compile "io.netty:netty-all:4.1.6.Final"
 
 	// http://mvnrepository.com/artifact/com.sun.mail/javax.mail
@@ -27,13 +32,17 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
 	compile "org.slf4j:slf4j-api:1.7.22"
 
-	testCompile "junit:junit:$junit_version"
-	testCompile "com.squareup.okhttp3:okhttp:3.5.0"
+	// http://mvnrepository.com/artifact/junit/junit
+	testCompile "junit:junit:4.12"
+
+	// http://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+	testCompile "com.squareup.okhttp3:okhttp:3.7.0"
 
 	// Adding output jar-files into the 'testCompile' artifact,
 	// to let dependent projects refer to the test files of this project, like that:
 	// testCompile project(path: ':AzaWebServer', configuration: 'testCompile')
 	// Some useful info:
 	// https://softnoise.wordpress.com/2014/09/07/gradle-sub-project-test-dependencies-in-multi-project-builds/
+	//noinspection GroovyAssignabilityCheck
 	testCompile sourceSets.test.output
 }

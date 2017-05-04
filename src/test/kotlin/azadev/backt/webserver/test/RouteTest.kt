@@ -12,7 +12,7 @@ class RouteTest
 		checkCompilation("/first/",                 "/first/:p1")
 		checkCompilation("/item123",                "/item#id", 123)
 		checkCompilation("/item123",                "/:type#id", "item", 123)
-		checkCompilation("item123",                 ":type#i", "item", 123)
+		checkCompilation("123item",                 "#i:type", 123, "item")
 		checkCompilation("/p/123",                  "/p/#id*", 123)
 		checkCompilation("/p/123//second",          "/p/#id/:type/second", 123)
 
@@ -71,7 +71,7 @@ class RouteTest
 		checkMatching(":type#id/second",        "item123/second",           true,   "type" to "item", "id" to 123)
 		checkMatching("/:type#id",              "item123",                  true,   "type" to "item", "id" to 123)
 		checkMatching("/js/:filename.js",       "/js/main.js",              true,   "filename" to "main")
-		checkMatching("/:type/:name.:ext",      "/img/bg.jpg",              true,   "type" to "img", "name" to "bg", "ext" to "jpg")
+		checkMatching("/:type/:name.:ext",      "/img/123.jpg",              true,   "type" to "img", "name" to "123", "ext" to "jpg")
 
 		checkMatching("/first/:action",         "/first/abc-._~!$&'()*+,;=:@%def",  true,   "action" to "abc-._~!$&'()*+,;=:@%def")
 
@@ -92,8 +92,10 @@ class RouteTest
 
 		checkMatching("/*",                     "/first/item123",           true,   "*" to "first/item123")
 		checkMatching("/first*",                "/first/item123",           true,   "*" to "/item123")
+		checkMatching("/first*",                "/first",                   true,   "*" to "")
 		checkMatching("/first/*#id",            "/first/item123",           true,   "*" to "item", "id" to 123)
 		checkMatching("*/*#id",                 "/first/item123",           true,   "*" to "first", "**" to "item", "id" to 123)
+		checkMatching("*/*#id",                 "/first/item",              false)
 	}
 
 	fun checkMatching(pattern: String, path: String, matched: Boolean, vararg params: Pair<String, Any>) {

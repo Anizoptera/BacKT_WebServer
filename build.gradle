@@ -17,6 +17,7 @@ buildscript {
 apply plugin: "kotlin"
 
 repositories {
+	mavenLocal()
 	jcenter()
 }
 
@@ -29,8 +30,8 @@ dependencies {
 	// http://mvnrepository.com/artifact/com.sun.mail/javax.mail
 	compile "com.sun.mail:javax.mail:1.5.5"
 
-	// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-	compile "org.slf4j:slf4j-api:1.7.22"
+	// https://github.com/Anizoptera/Kotlin-Logging-Facade
+	compile "azadev.logging:kotlog:1.0"
 
 	// http://mvnrepository.com/artifact/junit/junit
 	testCompile "junit:junit:4.12"

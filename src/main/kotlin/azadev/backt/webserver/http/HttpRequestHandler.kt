@@ -2,10 +2,10 @@ package azadev.backt.webserver.http
 
 import azadev.backt.webserver.WebServer
 import azadev.backt.webserver.intercept.InterceptOn
-import azadev.backt.webserver.logging.logDebug
-import azadev.backt.webserver.logging.logError
 import azadev.backt.webserver.routing.RouteDataToParams
 import azadev.backt.webserver.routing.filterRoutes
+import azadev.logging.logDebug
+import azadev.logging.logError
 import io.netty.buffer.Unpooled
 import io.netty.channel.*
 import io.netty.handler.codec.http.*

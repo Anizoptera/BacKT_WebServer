@@ -107,13 +107,13 @@ class WebServer(
 	fun patch(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = patch(Route(path), CallbackInterceptor(callback), interceptOn)
 
 
-	fun getAndPost(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) {
+	fun getOrPost(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) {
 		get(url, interceptor, interceptOn)
 		post(url, interceptor, interceptOn)
 	}
-	fun getAndPost(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getAndPost(url, CallbackInterceptor(callback), interceptOn)
-	fun getAndPost(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getAndPost(Route(path), interceptor, interceptOn)
-	fun getAndPost(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getAndPost(Route(path), CallbackInterceptor(callback), interceptOn)
+	fun getOrPost(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getOrPost(url, CallbackInterceptor(callback), interceptOn)
+	fun getOrPost(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getOrPost(Route(path), interceptor, interceptOn)
+	fun getOrPost(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getOrPost(Route(path), CallbackInterceptor(callback), interceptOn)
 
 
 	fun route(method: HttpMethod?, url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) {

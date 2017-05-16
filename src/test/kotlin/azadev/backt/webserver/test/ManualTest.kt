@@ -1,7 +1,7 @@
 package azadev.backt.webserver.test
 
 import azadev.backt.webserver.WebServer
-import org.junit.Test
+import org.junit.*
 
 
 class ManualTest
@@ -9,7 +9,7 @@ class ManualTest
 	@Test fun test() {
 		val server = WebServer()
 
-			server.getAndPost("/", {
+			server.getOrPost("/", {
 				println(request.uri)
 				true
 			})

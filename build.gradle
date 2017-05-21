@@ -1,16 +1,19 @@
 group "azadev.backt"
-version "1.0"
+version "0.9"
 
 buildscript {
 	// http://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-gradle-plugin
 	// https://plugins.jetbrains.com/plugin/6954-kotlin
-	ext.kotlin_version = "1.1.+"
+	ext.kotlin_version = "1.1.2"
 
 	repositories {
 		jcenter()
 	}
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+		// https://bintray.com/jfrog/jfrog-jars/gradle-bintray-plugin
+		classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
 	}
 }
 
@@ -19,6 +22,7 @@ apply plugin: "kotlin"
 repositories {
 	mavenLocal()
 	jcenter()
+	maven { url "http://dl.bintray.com/azadev/maven" }
 }
 
 dependencies {
@@ -31,7 +35,7 @@ dependencies {
 	compile "com.sun.mail:javax.mail:1.5.5"
 
 	// https://github.com/Anizoptera/Kotlin-Logging-Facade
-	compile "azadev.logging:kotlog:1.0"
+	compile "azadev.logging:kotlog:0.8"
 
 	// http://mvnrepository.com/artifact/junit/junit
 	testCompile "junit:junit:4.12"
@@ -39,11 +43,67 @@ dependencies {
 	// http://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
 	testCompile "com.squareup.okhttp3:okhttp:3.7.0"
 
-	// Adding output jar-files into the 'testCompile' artifact,
-	// to let dependent projects refer to the test files of this project, like that:
-	// testCompile project(path: ':AzaWebServer', configuration: 'testCompile')
+	// Add output jar-files into the 'testCompile' artifact
+	// to let dependent projects refer to test files of this project. Like that:
+	// testCompile project(path: ":BacKT_WebServer", configuration: "testCompile")
 	// Some useful info:
 	// https://softnoise.wordpress.com/2014/09/07/gradle-sub-project-test-dependencies-in-multi-project-builds/
 	//noinspection GroovyAssignabilityCheck
 	testCompile sourceSets.test.output
+}
+
+
+// PUBLISHING
+// https://docs.gradle.org/current/userguide/publishing_maven.html
+// https://github.com/bintray/gradle-bintray-plugin
+
+apply plugin: "maven-publish"
+apply plugin: "com.jfrog.bintray"
+
+def pub_artifactId = "backt_webserver"
+
+task jar_source(type: Jar) {
+	from sourceSets.main.allSource
+}
+
+publishing {
+	publications {
+		"$pub_artifactId"(MavenPublication) {
+			groupId group
+			artifactId pub_artifactId
+			version project.version
+
+			from components.java
+
+			artifact jar_source {
+				classifier "sources"
+			}
+		}
+	}
+}
+
+bintray {
+	user = bintray_user
+	key = bintray_api_key
+	publications = [pub_artifactId]
+
+	publish = true // [Default: false] Whether version should be auto published after an upload
+	override = true // [Default: false] Whether to override version artifacts already published
+
+	pkg {
+		repo = "maven"
+		name = pub_artifactId
+
+		// Optional params used to create package if it doesn't exist
+		userOrg = "azadev"
+		licenses = ["MIT"]
+		vcsUrl = "https://github.com/Anizoptera/BacKT_WebServer.git"
+		issueTrackerUrl = "https://github.com/Anizoptera/BacKT_WebServer/issues"
+		websiteUrl = "https://github.com/Anizoptera/BacKT_WebServer"
+		publicDownloadNumbers = false
+
+		version {
+			name = project.version
+		}
+	}
 }

@@ -11,25 +11,13 @@ It also uses [KotLog](https://github.com/Anizoptera/Kotlin-Logging-Facade) for l
 
 ## Installation
 
-Since at the moment the library is not in a maven repo, you can easily include **BacKT WebServer** into your application using [git-subrepo](https://github.com/ingydotnet/git-subrepo). Just clone this repo in any subdirectory of your application:
-
-```
-git subrepo clone git@github.com:Anizoptera/BacKT_WebServer.git <subdir>
-```
-
-Add the following into your app's `settings.gradle`:
-
 ```gradle
-include ":BacKT_WebServer"
-project(":BacKT_WebServer").projectDir = file("path/to/BacKT_WebServer")
-```
+repositories {
+	maven { url "http://dl.bintray.com/azadev/maven" }
+}
 
-Add a compile-time dependency in `build.gradle`:
-
-```gradle
 dependencies {
-	// ...
-	compile project(":BacKT_WebServer")
+	compile "azadev.backt:backt_webserver:0.9"
 }
 ```
 

@@ -1,6 +1,6 @@
 package azadev.backt.webserver
 
-import azadev.backt.webserver.http.CallReferences
+import azadev.backt.webserver.callref.CallReferences
 import azadev.backt.webserver.http.HttpRequestHandler
 import azadev.backt.webserver.intercept.*
 import azadev.backt.webserver.routing.Route
@@ -71,57 +71,57 @@ class WebServer(
 	}
 
 
-	fun get(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.GET, url, interceptor, interceptOn)
+	fun get(url: Route, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.GET, url, interceptor, interceptOn)
 	fun get(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = get(url, CallbackInterceptor(callback), interceptOn)
-	fun get(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = get(Route(path), interceptor, interceptOn)
+	fun get(path: String, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = get(Route(path), interceptor, interceptOn)
 	fun get(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = get(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun post(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.POST, url, interceptor, interceptOn)
+	fun post(url: Route, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.POST, url, interceptor, interceptOn)
 	fun post(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = post(url, CallbackInterceptor(callback), interceptOn)
-	fun post(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = post(Route(path), interceptor, interceptOn)
+	fun post(path: String, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = post(Route(path), interceptor, interceptOn)
 	fun post(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = post(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun put(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.PUT, url, interceptor, interceptOn)
+	fun put(url: Route, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.PUT, url, interceptor, interceptOn)
 	fun put(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = put(url, CallbackInterceptor(callback), interceptOn)
-	fun put(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = put(Route(path), interceptor, interceptOn)
+	fun put(path: String, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = put(Route(path), interceptor, interceptOn)
 	fun put(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = put(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun head(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.HEAD, url, interceptor, interceptOn)
+	fun head(url: Route, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.HEAD, url, interceptor, interceptOn)
 	fun head(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = head(url, CallbackInterceptor(callback), interceptOn)
-	fun head(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = head(Route(path), interceptor, interceptOn)
+	fun head(path: String, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = head(Route(path), interceptor, interceptOn)
 	fun head(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = head(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun delete(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.DELETE, url, interceptor, interceptOn)
+	fun delete(url: Route, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.DELETE, url, interceptor, interceptOn)
 	fun delete(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = delete(url, CallbackInterceptor(callback), interceptOn)
-	fun delete(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = delete(Route(path), interceptor, interceptOn)
+	fun delete(path: String, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = delete(Route(path), interceptor, interceptOn)
 	fun delete(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = delete(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun options(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.OPTIONS, url, interceptor, interceptOn)
+	fun options(url: Route, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.OPTIONS, url, interceptor, interceptOn)
 	fun options(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = options(url, CallbackInterceptor(callback), interceptOn)
-	fun options(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = options(Route(path), interceptor, interceptOn)
+	fun options(path: String, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = options(Route(path), interceptor, interceptOn)
 	fun options(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = options(Route(path), CallbackInterceptor(callback), interceptOn)
 
-	fun patch(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.PATCH, url, interceptor, interceptOn)
+	fun patch(url: Route, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(HttpMethod.PATCH, url, interceptor, interceptOn)
 	fun patch(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = patch(url, CallbackInterceptor(callback), interceptOn)
-	fun patch(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = patch(Route(path), interceptor, interceptOn)
+	fun patch(path: String, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = patch(Route(path), interceptor, interceptOn)
 	fun patch(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = patch(Route(path), CallbackInterceptor(callback), interceptOn)
 
 
-	fun getOrPost(url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) {
+	fun getOrPost(url: Route, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) {
 		get(url, interceptor, interceptOn)
 		post(url, interceptor, interceptOn)
 	}
 	fun getOrPost(url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getOrPost(url, CallbackInterceptor(callback), interceptOn)
-	fun getOrPost(path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getOrPost(Route(path), interceptor, interceptOn)
+	fun getOrPost(path: String, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getOrPost(Route(path), interceptor, interceptOn)
 	fun getOrPost(path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = getOrPost(Route(path), CallbackInterceptor(callback), interceptOn)
 
 
-	fun route(method: HttpMethod?, url: Route, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) {
+	fun route(method: HttpMethod?, url: Route, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) {
 		routes.add(RouteData(url, method, interceptor, interceptOn))
 	}
 	fun route(method: HttpMethod?, url: Route, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(method, url, CallbackInterceptor(callback), interceptOn)
-	fun route(method: HttpMethod?, path: String, interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(method, Route(path), interceptor, interceptOn)
+	fun route(method: HttpMethod?, path: String, interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(method, Route(path), interceptor, interceptOn)
 	fun route(method: HttpMethod?, path: String, callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(method, Route(path), CallbackInterceptor(callback), interceptOn)
-	fun route(interceptor: AInterceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(null, Route.ANY, interceptor, interceptOn)
+	fun route(interceptor: Interceptor, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(null, Route.ANY, interceptor, interceptOn)
 	fun route(callback: CallReferences.()->Boolean, interceptOn: InterceptOn = InterceptOn.EXECUTION) = route(null, Route.ANY, CallbackInterceptor(callback), interceptOn)
 }

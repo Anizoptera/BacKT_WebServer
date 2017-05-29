@@ -11,7 +11,7 @@ class UriFixInterceptor(
 		val pathTrimEndChars: CharArray? = null,
 		val wwwMode: Byte = WWWMODE_NONE,
 		val onUriFixed: ((String, String)->Unit)? = null
-) : AInterceptor
+) : Interceptor
 {
 	override fun intercept(server: WebServer, request: Request, response: Response, routeParams: RouteParams): Boolean {
 		var host = request.host

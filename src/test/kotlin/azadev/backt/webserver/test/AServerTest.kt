@@ -1,7 +1,7 @@
 package azadev.backt.webserver.test
 
 import azadev.backt.webserver.WebServer
-import azadev.backt.webserver.http.CallReferences
+import azadev.backt.webserver.callref.CallReferences
 import okhttp3.*
 import org.junit.*
 

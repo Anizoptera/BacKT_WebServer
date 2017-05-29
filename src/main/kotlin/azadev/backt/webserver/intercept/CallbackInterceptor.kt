@@ -1,11 +1,11 @@
 package azadev.backt.webserver.intercept
 
-import azadev.backt.webserver.http.CallReferences
+import azadev.backt.webserver.callref.CallReferences
 
 
 class CallbackInterceptor(
 		val callback: CallReferences.()->Boolean
-) : AInterceptor
+) : Interceptor
 {
 	override fun CallReferences.intercept() = callback()
 }

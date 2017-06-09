@@ -7,7 +7,14 @@ import java.net.URLEncoder
 
 class Route(
 		val pattern: String,
-		val domain: String = ""
+
+		/*
+		Sometimes it is very useful to create a Route with domain/scheme predefined.
+		You can pass such Route-instance into any class that needs it, and the class
+		will be able to create an URL-string without a need to know the domain/scheme.
+		 */
+		val domain: String = "",
+		val scheme: String = SCHEME_HTTP
 ) {
 	val wildcards = arrayListOf<String>()
 
@@ -43,14 +50,21 @@ class Route(
 	val isAny = pattern == "*"
 
 
-	operator fun invoke(vararg params: Any, addDomain: Boolean = false, addHttp: Boolean = false, queryParams: Map<*, *>? = null): String {
+	operator fun invoke(
+			vararg params: Any,
+			domain: String? = null,
+			addDomain: Boolean = domain != null,
+			scheme: String? = null,
+			addScheme: Boolean = scheme != null,
+			queryParams: Map<*, *>? = null
+	): String {
 		val sb = StringBuilder()
 
-		if (addHttp)
-			sb.append("http://")
+		if (addScheme)
+			sb.append(scheme ?: this.scheme)
 
-		if (addDomain || addHttp)
-			sb.append(domain)
+		if (addDomain || addScheme)
+			sb.append(domain ?: this.domain)
 
 		val lastIdx = pattern.length-1
 		var isInWildcard = false
@@ -132,5 +146,11 @@ class Route(
 	{
 		val ANY = Route("*")
 		val ROOT = Route("/")
+
+		const val SCHEME_SAME = "//"
+		const val SCHEME_HTTP = "http://"
+		const val SCHEME_HTTPS = "https://"
+		const val SCHEME_FTP = "ftp://"
+		const val SCHEME_FTPS = "ftps://"
 	}
 }

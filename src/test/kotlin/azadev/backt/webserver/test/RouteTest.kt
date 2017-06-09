@@ -2,6 +2,7 @@ package azadev.backt.webserver.test
 
 import azadev.backt.webserver.routing.Route
 import org.junit.*
+import org.junit.Assert.assertEquals as eq
 
 
 class RouteTest
@@ -50,8 +51,18 @@ class RouteTest
 		)
 	}
 
+	@Test fun compilation_httpParts() {
+		eq("/path/ab_cd",                           Route("/path/:p1_:p2", domain = "example.com").invoke("ab", "cd"))
+		eq("example.com/path/ab_cd",                Route("/path/:p1_:p2", domain = "example.com").invoke("ab", "cd", addDomain = true))
+		eq("http://example.com/path/ab_cd",         Route("/path/:p1_:p2", domain = "example.com").invoke("ab", "cd", addDomain = true, addScheme = true))
+		eq("//example.com/path/ab_cd",              Route("/path/:p1_:p2", domain = "example.com").invoke("ab", "cd", scheme = Route.SCHEME_SAME))
+		eq("example.com/path/ab_cd",                Route("/path/:p1_:p2").invoke("ab", "cd", domain = "example.com"))
+		eq("/path/ab_cd",                           Route("/path/:p1_:p2").invoke("ab", "cd", domain = "example.com", addDomain = false))
+		eq("https://example.com/path/ab_cd",        Route("/path/:p1_:p2").invoke("ab", "cd", domain = "example.com", addDomain = false, scheme = Route.SCHEME_HTTPS))
+	}
+
 	private fun checkCompilation(expected: String, pattern: String, vararg params: Any, query: Map<*, *>? = null) {
-		Assert.assertEquals(expected, (Route(pattern))(*params, queryParams = query))
+		eq(expected, (Route(pattern))(*params, queryParams = query))
 	}
 
 
@@ -102,12 +113,12 @@ class RouteTest
 		val actual = Route(pattern).parseUri(path)
 
 		if (!matched)
-			return Assert.assertEquals(null, actual)
+			return eq(null, actual)
 
-		Assert.assertEquals(params.size, actual?.size)
+		eq(params.size, actual?.size)
 
 		for ((name, value) in params)
-			Assert.assertEquals(value, when (value) {
+			eq(value, when (value) {
 				is Int -> actual?.getInt(name)
 				else -> actual?.getString(name)
 			})

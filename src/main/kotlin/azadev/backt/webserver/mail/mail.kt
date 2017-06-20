@@ -6,16 +6,18 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
 
+/*
+CAUTION!
+These helpers are very raw and rude.
+They will be refactored in the near future.
+ */
+
 // http://www.tutorialspoint.com/java/java_sending_email.htm
 // http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
 // https://support.google.com/mail/answer/13287
-fun sendMailViaGmail(from: String, pass: String, to: String, subject: String, text: String): Boolean {
-	val props = Properties()
-	props.put("mail.smtp.auth", "true")
-	props.put("mail.smtp.starttls.enable", "true")
-	props.put("mail.smtp.host", "smtp.gmail.com")
-	props.put("mail.smtp.port", "587")
+// http://www.sql.ru/forum/1195541/javamail-smtp-i-yandex
 
+fun sendMail(props: Properties, from: String, pass: String, to: String, subject: String, text: String): Boolean {
 	val session = Session.getInstance(props, object : Authenticator() {
 		override fun getPasswordAuthentication() = PasswordAuthentication(from, pass)
 	})
@@ -79,6 +81,29 @@ fun sendMailViaGmail(from: String, pass: String, to: String, subject: String, te
 		return false
 	}
 }
+
+
+fun sendMailViaGmail(from: String, pass: String, to: String, subject: String, text: String): Boolean {
+	val props = Properties()
+	props.put("mail.smtp.host", "smtp.gmail.com")
+	props.put("mail.smtp.port", "587")
+	props.put("mail.smtp.auth", "true")
+	props.put("mail.smtp.starttls.enable", "true")
+
+	return sendMail(props, from, pass, to, subject, text)
+}
+
+fun sendMailViaYandex(from: String, pass: String, to: String, subject: String, text: String): Boolean {
+	val props = Properties()
+	props.put("mail.smtp.host", "smtp.yandex.ru")
+	props.put("mail.smtp.port", "465")
+	props.put("mail.smtp.auth", "true")
+	props.put("mail.smtp.socketFactory.port", "465")
+	props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory")
+
+	return sendMail(props, from, pass, to, subject, text)
+}
+
 
 fun receiveEmailViaImap(
 		user: String,

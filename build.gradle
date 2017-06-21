@@ -4,7 +4,14 @@ version "0.9"
 buildscript {
 	// http://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-gradle-plugin
 	// https://plugins.jetbrains.com/plugin/6954-kotlin
-	ext.kotlin_version = "1.1.2"
+	ext.has("kotlin_version") || (ext.kotlin_version = "1.1.2-5")
+
+	// https://github.com/Anizoptera/Kotlin-Logging-Facade
+	ext.has("kotlog_version") || (ext.kotlog_version = "0.8")
+
+	// http://mvnrepository.com/artifact/junit/junit
+	ext.has("junit_version") || (ext.junit_version = "4.12")
+
 
 	repositories {
 		jcenter()
@@ -29,13 +36,11 @@ dependencies {
 	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
 	// http://mvnrepository.com/artifact/io.netty/netty-all
-	compile "io.netty:netty-all:4.1.6.Final"
+	compile "io.netty:netty-all:4.1.12.Final"
 
-	// https://github.com/Anizoptera/Kotlin-Logging-Facade
-	compile "azadev.logging:kotlog:0.8"
+	compile "azadev.logging:kotlog:$kotlog_version"
 
-	// http://mvnrepository.com/artifact/junit/junit
-	testCompile "junit:junit:4.12"
+	testCompile "junit:junit:$junit_version"
 
 	// http://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
 	testCompile "com.squareup.okhttp3:okhttp:3.7.0"

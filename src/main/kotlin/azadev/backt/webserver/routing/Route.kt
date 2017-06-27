@@ -114,7 +114,7 @@ class Route(
 	}
 
 
-	operator fun plus(path: String) = Route("$pattern$path")
+	operator fun plus(path: String) = Route("$pattern$path", domain, scheme)
 
 
 	fun parseUri(path: String): RouteParams? {

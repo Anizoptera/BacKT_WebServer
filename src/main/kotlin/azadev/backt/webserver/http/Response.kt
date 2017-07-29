@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package azadev.backt.webserver.http
 
 import azadev.backt.webserver.error.ServerError
@@ -6,6 +8,7 @@ import io.netty.handler.codec.http.HttpResponseStatus
 import io.netty.handler.codec.http.cookie.DefaultCookie
 import io.netty.handler.codec.http.cookie.ServerCookieEncoder
 import java.io.File
+import javax.activation.MimetypesFileTypeMap
 
 
 class Response
@@ -41,14 +44,23 @@ class Response
 		return false
 	}
 
-	fun sendFile(file: File, contentType: String? = null): Boolean {
+	fun sendFile(file: File, contentType: String? = null, autoContentType: Boolean = false): Boolean {
 		filePathToSend = file.path
+
 		if (contentType != null)
 			headers["Content-Type"] = contentType
+		else if (autoContentType) {
+			headers["Content-Type"] = when {
+				file.extension.equals("css", ignoreCase = true) -> "text/css"
+				file.extension.equals("js", ignoreCase = true) -> "application/javascript"
+				else -> MimetypesFileTypeMap().getContentType(file)!! // default is "application/octet-stream"
+			}
+		}
+
 		return false
 	}
-	fun sendFile(pathname: String, contentType: String? = null)
-			= sendFile(File(pathname), contentType)
+	fun sendFile(pathname: String, contentType: String? = null, autoContentType: Boolean = false)
+			= sendFile(File(pathname), contentType, autoContentType)
 
 
 	fun setStatus(_status: HttpResponseStatus): Boolean {

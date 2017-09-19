@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-	compile "azadev.backt:backt_webserver:0.9"
+	compile "azadev.backt:backt_webserver:0.9.1"
 }
 ```
 
